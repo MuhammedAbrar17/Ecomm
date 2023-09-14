@@ -3,8 +3,8 @@
       <section class="content-main">
         <div class="content-header">
           <div>
-            <h2 class="content-title card-title">Categories</h2>
-            <p>Add, edit or delete a category</p>
+            <h2 class="content-title card-title">Offer</h2>
+            <p>Add, edit or delete a offer</p>
           </div>
           <div>
             <input
@@ -18,7 +18,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-3">
-                <form method="POST" enctype="multipart/form-data" action="{% url 'editcategory' category.id %}">
+                <form method="POST"  action="{% url 'addoffer' %}">
                   {% csrf_token %}{% if messages %}
                   {% for message in messages %}
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -36,46 +36,47 @@
                       class="form-control"
                       id="product_name"
                       name = "name"
-                      value="{{category.category_name}}"
                     />
                   </div>
+
                   <div class="mb-4">
-                    <label for="product_slug" class="form-label">Slug</label>
+                    <label for="off" class="form-label">Offer percentage</label>
                     <input
-                      type="text"
+                      type="Number"
                       placeholder="Type here"
                       class="form-control"
-                      id="product_slug"
-                      name = "slug"
-                      value="{{category.slug}}"
+                      id="off"
+                      name = "perc"
                     />
                   </div>
-                  
+
                   <div class="mb-4">
-                    <label class="form-label">Description</label>
-                    <textarea
-                      placeholder="Type here"
-                      class="form-control"
-                      name = "desc"
-                      value="{{category.category_desc}}"
-                    ></textarea>
+                    <label for="start-date">Start Date</label>
+                    <input 
+                        type="date" 
+                        id="start-date" 
+                        name="start-date" 
+                        class="form-control"  
+                        value="" 
+                        />
                   </div>
-                  <div class="col-sm-6 mb-3">
-                    <label class="form-label">Offer</label>
-                    <select class="form-select" name="offer">
-                      <option {% if category.offer %}value="{{ category.offer.id }}"{% else %} value=""{%endif%}>{% if category.offer %}{{ category.offer.name }}{% else %}-----{%endif%}</option>
-                      {% for offer in offers %}
-                      <option value="{{ offer.id }}">{{ offer.name }}</option>
-                      {% endfor %}
-                    </select>
+                  <div class="mb-4">
+                    <label for="end-date">End Date</label>
+                    <input 
+                        type="date" 
+                        id="end-date" 
+                        name="end-date" 
+                        class="form-control"  
+                        value="" 
+                        />
                   </div>
-                  <label class="form-check mb-4">
-                    <input class="form-check-input" type="checkbox" value="True" name="isavailable" checked/>
-                    <span class="form-check-label"> Is available </span>
-                  </label>
-                  <div class="d-grid">
-                    <button class="btn btn-primary" type="submit">Update category</button>
-                  </div>
+
+                  
+                  
+                    <div class="d-grid">
+                        <button class="btn btn-primary" type="submit">Add</button>
+                      </div>
+                 
                 </form>
               </div>
               <div class="col-md-9">
@@ -93,12 +94,14 @@
                           </div>
                         </th>
                         <th>Name</th>
-                        <th>Slug</th>
-                        <th class="text-end">Action</th>
+                        <th>Offer percentage</th>
+                        <th>Start date</th>
+                        <th>End date</th>
+                        
                       </tr>
                     </thead>
                     <tbody>
-                    
+                      {% for offer in offers %}
                       <tr>
                       
                       
@@ -111,29 +114,15 @@
                             />
                           </div>
                         </td>
-                        <td><b>{{ category.category_name }}</b></td>
-                        <td>{{ category.slug }}</td>
-                        <td class="text-end">
-                          <div class="dropdown">
-                            <a
-                              href="#"
-                              data-bs-toggle="dropdown"
-                              class="btn btn-light rounded btn-sm font-sm"
-                            >
-                              <i class="material-icons md-more_horiz"></i>
-                            </a>
-                            <div class="dropdown-menu">
+                        
+                        <td><b>{{ offer.name }}</b></td>
+                        <td><b>{{ offer.off_percent }}</b></td>
+                        <td><b>{{ offer.start_date }}</b></td>
+                        <td><b>{{ offer.end_date }}</b></td>
 
-                              <a class="dropdown-item" href="{% url 'editcategory' category.id %}">Edit info</a>
-                              <a class="dropdown-item text-danger" href="#"
-                                >Delete</a
-                              >
-                            </div>
-                          </div>
-                          <!-- dropdown //end -->
-                        </td>
+                        
                       </tr>
-                     
+                      {% endfor %}
                     </tbody>
                   </table>
                 </div>
